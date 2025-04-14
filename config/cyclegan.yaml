@@ -1,0 +1,53 @@
+TRAIN:
+  DATASET:
+    TRAIN_DATASET_PATH: ./datasets/CUFS/XM2VTS/Testing
+    TEST_DATASET_PATH: ./datasets/CUFS/XM2VTS/Training
+    IMAGE_SIZE: 256
+  DL:
+    BATCH_SIZE: 1
+    SHUFFLE: True
+    NUM_WORKERS: 0
+    PIN_MEMORY: False
+  OPTIM:
+    G_LR: 0.0002
+    D_LR: 0.0002
+    B1: 0.5
+    B2: 0.999
+  LR:
+    N_EPOCHS: 500
+    EPOCH: 0
+    DECAY_EPOCH: 100
+  LOSS:
+    IDENTIFY_WEIGHT: 5.0
+    CYCLE_WEIGHT: 10.0
+    FREQUENCY_LOSS_WEIGHT: 0.1
+    IS_FREQUENCY_LOSS: True
+
+
+MODEL:
+  G:
+    NAME: generatorResNet
+    IN_CHANNELS: 3
+    ENCODER_LAYERS: 3
+    NUM_RESIDUAL_BLOCK: 9
+  D:
+    NAME: patchDiscriminator
+    IN_CHANNELS: 3
+    OUT_SIZE: 30
+    SPECTRAL_NORM: False
+
+TEST:
+  IMAGE_KIND: color
+  TEST_PATH: ./datasets/CUFS/XM2VTS/Training/sketches/
+
+EVALUATE:
+  REAL_PATH: ../datasets/CUFS/XM2VTS/Training/photos/
+  FAKE_PATH: ../generatorResNet_save_out/
+  FID:
+    BATCH_SIZE: 4
+  SSIM:
+    WINDOW_SIZE: 11
+    SIZE_AVE: True
+  LPIPS:
+    NET: vgg
+
